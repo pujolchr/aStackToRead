@@ -14,4 +14,6 @@ let's do a page/app that let me:
 
 
 TODO: 
-
+* basic html page (bootstrap)
+* basic register url
+* **storage** how to do local storage
