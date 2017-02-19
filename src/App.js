@@ -4,6 +4,17 @@ import React, {
 import './App.css';
 import stack from '../public/stack.json';
 
+function listTheStack(article, i) {
+    if (i === 0) return (
+        <h2 key={"stack" + i}>
+            <a href={article.url}>{article.name} {article.url}</a>
+        </h2>);
+
+    return (
+        <li key={"stack" + i}>
+            <a href={article.url}>{article.name} {article.url}</a>
+        </li>);
+}
 class Control extends Component {
     render() {
         return ( <div>
@@ -15,24 +26,7 @@ class Control extends Component {
     }
 }
 
-class FirstInLine extends Component {
 
-    render() {
-        return (
-                <h2>first</h2>
-               );
-    }
-}
-
-class NextInLine extends Component {
-    render() {
-        return (
-                <ul>
-                    Line
-                </ul>
-               );
-    }
-}
 class Stack extends Component {
     constructor(props) {
             super(props);
@@ -41,11 +35,9 @@ class Stack extends Component {
 
     render() {
         return (
-                <div>
-                    <FirstInLine />
-                    <NextInLine />
-                    ldfkjsl
-                </div>
+                <ul>
+                    {this.state.stack.map(listTheStack)}
+                </ul>
                 );
     }
 }

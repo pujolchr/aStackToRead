@@ -1,8 +1,11 @@
      [{
-        "name": "a",
-        "url": "urlA"
+        "name": "naga.no",
+        "url": "http://naga.no"
     }, {
-        "name": "b",
+        "name": "www.google.com",
+        "url": "http://www.google.com"
+    }, {
+        "name": "d",
         "url": "urlB"
     }, {
         "name": "c",
