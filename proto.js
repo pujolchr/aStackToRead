@@ -3,16 +3,20 @@
 
 
 var Paper = {
-    name;
-    url;
-    date-in;
-}
+    name: "nom",
+    url: "https://naga.no",
+    dateIn : ""
+};
 
 var stack = [];
 
-function pushToRead(paper) {}
+function pushToRead(stack, paper) {
+    return stack.unshift(paper);
+}
+function appendToRead(stack, paper) {
+    return stack.push(paper);
+}
 
-
-function appendToRead(paper) {}
-
-function popToRead(paper) {}
+function popToRead(stack, paper) {
+    return 
+}
