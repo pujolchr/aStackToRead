@@ -2,7 +2,22 @@ import React, {
     Component
 } from 'react';
 import './App.css';
-import stack from '../public/stack.json';
+
+//import stack from '../public/stack.json';
+
+var newStack;
+if (typeof(Storage) !== "undefined") {
+    // Code for localStorage/sessionStorage.
+    newStack = localStorage.getItem("stack");
+    newStack = JSON.parse(newStack);
+} else {
+    // Sorry! No Web Storage support..
+    alert("Local starage not suported");
+    newStack = [];
+}
+
+
+
 
 function getNewArticle() {
     return {
@@ -12,6 +27,7 @@ function getNewArticle() {
 }
 
 function listTheStack(article, i) {
+
     i++;
     return (
         <li key={"stack"+i}>
@@ -20,6 +36,7 @@ function listTheStack(article, i) {
 }
 
 class StackBody extends Component {
+
     render() {
         return (
             <ul>
@@ -29,6 +46,7 @@ class StackBody extends Component {
     }
 }
 class StackHead extends Component {
+
     render() {
         return (
             <h2 key={"stack-head"}>
@@ -40,16 +58,33 @@ class StackHead extends Component {
 }
 
 class Stack extends Component {
+
     render() {
+        if (this.props.stack.length === 0) {
+            return (
+                <div>
+                  <h1>
+                    Nothing in you stack
+                  </h1>
+                </div>);
+        };
+
+        let head = this.props.stack[0];
+        let body = this.props.stack.slice(1);
+
         return (
             <div>
-              <StackHead article={this.props.stack[0]}/>
-              <StackBody list={this.props.stack.slice(1)}/>
+              <StackHead article={head}/>
+              <StackBody list={body}/>
             </div>
         );
     }
 }
 class App extends Component {
+
+    saveStack(){
+        localStorage.setItem('stack', JSON.stringify(this.state.list));
+    }
 
     pushArticle(){
         let newArticle = getNewArticle();
@@ -57,12 +92,14 @@ class App extends Component {
         newList.push(newArticle);
         this.setState({list:newList});
     }
+
     unshiftArticle(){
         let newArticle = getNewArticle();
         let newList = this.state.list.slice(0);
         newList.unshift(newArticle);
         this.setState({list:newList});
     }
+
     readArticle(){
         /* open new window */
         window.open(this.state.list[0].url);
@@ -70,22 +107,32 @@ class App extends Component {
           let newList = this.state.list.slice(1);
           this.setState({list:newList});
     }
+
     constructor(props) {
             super(props);
-            this.state = {list: stack.slice(0)};
-            console.log("cons");
-            console.log(this.state);
+            this.state = {list: newStack.slice(0)};
     }
+
     render() {
+        /* TODO pass buttons in an child element */
         return (
             <div>
-            <button onClick={this.unshiftArticle.bind(this)}>add in top</button>
-            <button onClick={this.pushArticle.bind(this)}>add in bottom</button>
-            <button onClick={this.readArticle.bind(this)} >
-                read
-            </button>
-              
-            <Stack stack={this.state.list}/>
+                <div>
+                    <button onClick={(e) =>this.saveStack(e)}>
+                      save
+                    </button>
+                    <button onClick={(e) =>this.unshiftArticle(e)}>
+                      add in top
+                    </button>
+                    <button onClick={(e) =>this.pushArticle(e)}>
+                      add in bottom
+                    </button>
+                    <button onClick={(e) =>this.readArticle(e)}>
+                    read
+                    </button>
+                </div>
+                <hr/>
+                <Stack stack={this.state.list}/>
             </div>
         );
     }
