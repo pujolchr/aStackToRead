@@ -1,6 +1,4 @@
-import React, {
-    Component
-} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 //import stack from '../public/stack.json';
@@ -12,7 +10,7 @@ if (typeof(Storage) !== "undefined") {
     newStack = JSON.parse(newStack);
 } else {
     // Sorry! No Web Storage support..
-    alert("Local starage not suported");
+    alert("Local storage not suported");
     newStack = [];
 }
 
@@ -20,19 +18,17 @@ if (typeof(Storage) !== "undefined") {
 
 
 function getNewArticle() {
-    return {
-        name:"newone",
-        url:"don't try this at home"
-    };
+    alert("ask for a new artyicle");
+    return { name:"new one",
+             url:"#" };
 }
 
 function listTheStack(article, i) {
 
     i++;
-    return (
-        <li key={"stack"+i}>
-          {article.name} <a href={article.url}>{article.url}</a>
-        </li>);
+    return (<li key={"stack"+i}>
+              <strong>{article.name}</strong> {article.url}
+            </li>);
 }
 
 class StackBody extends Component {
@@ -82,25 +78,25 @@ class Stack extends Component {
 }
 class App extends Component {
 
-    saveStack(){
+    saveStack() {
         localStorage.setItem('stack', JSON.stringify(this.state.list));
     }
 
-    pushArticle(){
+    pushArticle() {
         let newArticle = getNewArticle();
         let newList = this.state.list.slice(0);
         newList.push(newArticle);
         this.setState({list:newList});
     }
 
-    unshiftArticle(){
+    unshiftArticle() {
         let newArticle = getNewArticle();
         let newList = this.state.list.slice(0);
         newList.unshift(newArticle);
         this.setState({list:newList});
     }
 
-    readArticle(){
+    readArticle() {
         /* open new window */
         window.open(this.state.list[0].url);
         /* update list */
