@@ -5,16 +5,12 @@ import './App.css';
 import stack from '../public/stack.json';
 
 function listTheStack(article, i) {
-    if (i === 0) return (
-        <h2 key={"stack" + i}>
-            <a href={article.url}>{article.name} {article.url}</a>
-        </h2>);
-
     return (
         <li key={"stack" + i}>
-            <a href={article.url}>{article.name} {article.url}</a>
+            {article.name} <a href={article.url}>{article.url}</a>
         </li>);
 }
+
 class Control extends Component {
     render() {
         return ( <div>
@@ -26,18 +22,34 @@ class Control extends Component {
     }
 }
 
-
-class Stack extends Component {
-    constructor(props) {
-            super(props);
-            this.state = {"stack": stack}
-            }
-
+class StackBody extends Component {
     render() {
         return (
                 <ul>
-                    {this.state.stack.map(listTheStack)}
+                 {this.props.list.map(listTheStack)}
                 </ul>
+        );
+    }
+}
+class StackHead extends Component {
+    render() {
+        return (
+        <h2 key={"stack-head"}>
+        {console.log(this.props)}
+            {this.props.article.name}<br/>
+            <a href={this.props.article.url}>
+                 {this.props.article.url}
+            </a>
+        </h2>);}
+}
+
+class Stack extends Component {
+    render() {
+        return (
+                <div>
+                    <StackHead article={this.props.stack[0]}/>
+                    <StackBody list={this.props.stack.slice(1)}/>
+                </div>
                 );
     }
 }
@@ -45,7 +57,7 @@ class App extends Component {
     render() {
         return ( <div>
             <Control />
-            <Stack />
+            <Stack stack={stack}/>
             </div>
         );
     }
