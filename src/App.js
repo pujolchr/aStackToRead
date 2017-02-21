@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
+import Stack from './Stack'
+import ControlButton from './ControlButton'
 
 //import stack from '../public/stack.json';
 
 var newStack;
+// Local Storage
+
 if (typeof(Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
     newStack = localStorage.getItem("stack");
@@ -18,64 +22,11 @@ if (typeof(Storage) !== "undefined") {
 
 
 function getNewArticle() {
-    alert("ask for a new artyicle");
+    alert("ask for a new article");
     return { name:"new one",
              url:"#" };
 }
 
-function listTheStack(article, i) {
-
-    i++;
-    return (<li key={"stack"+i}>
-              <strong>{article.name}</strong> {article.url}
-            </li>);
-}
-
-class StackBody extends Component {
-
-    render() {
-        return (
-            <ul>
-              {this.props.list.map(listTheStack)}
-            </ul>
-        );
-    }
-}
-class StackHead extends Component {
-
-    render() {
-        return (
-            <h2 key={"stack-head"}>
-              {this.props.article.name}<br/>
-              <a href={this.props.article.url}>
-                {this.props.article.url}
-              </a>
-            </h2>);}
-}
-
-class Stack extends Component {
-
-    render() {
-        if (this.props.stack.length === 0) {
-            return (
-                <div>
-                  <h1>
-                    Nothing in you stack
-                  </h1>
-                </div>);
-        };
-
-        let head = this.props.stack[0];
-        let body = this.props.stack.slice(1);
-
-        return (
-            <div>
-              <StackHead article={head}/>
-              <StackBody list={body}/>
-            </div>
-        );
-    }
-}
 class App extends Component {
 
     saveStack() {
@@ -98,6 +49,7 @@ class App extends Component {
 
     readArticle() {
         /* open new window */
+        console.log(this);
         window.open(this.state.list[0].url);
         /* update list */
           let newList = this.state.list.slice(1);
@@ -113,7 +65,9 @@ class App extends Component {
         /* TODO pass buttons in an child element */
         return (
             <div>
-                <div>
+                <ControlButton text="read" onClick={this.readArticle}/>
+                <hr/>
+               <div>
                     <button onClick={(e) =>this.saveStack(e)}>
                       save
                     </button>
@@ -123,11 +77,12 @@ class App extends Component {
                     <button onClick={(e) =>this.pushArticle(e)}>
                       add in bottom
                     </button>
-                    <button onClick={(e) =>this.readArticle(e)}>
+                    <button onClick={(e) =>this.readArticle()}>
                     read
                     </button>
                 </div>
-                <hr/>
+
+               <hr/>
                 <Stack stack={this.state.list}/>
             </div>
         );
