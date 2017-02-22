@@ -5,30 +5,16 @@ import ControlButton from './ControlButton'
 
 //import stack from '../public/stack.json';
 
-var newStack;
-// Local Storage
-
-if (typeof(Storage) !== "undefined") {
-    // Code for localStorage/sessionStorage.
-    newStack = localStorage.getItem("stack");
-    newStack = JSON.parse(newStack);
-} else {
-    // Sorry! No Web Storage support..
-    alert("Local storage not suported");
-    newStack = [];
-}
-
-
-
 
 function getNewArticle() {
     alert("ask for a new article");
-    return { name:"new one",
-             url:"#" };
+    return { name: "new one",
+             url:  "#" };
 }
 
 class App extends Component {
 
+    // Click handler
     saveStack() {
         localStorage.setItem('stack', JSON.stringify(this.state.list));
     }
@@ -58,31 +44,40 @@ class App extends Component {
 
     constructor(props) {
             super(props);
+
+            let  newStack;
+
+            // Local Storage
+            if (typeof(Storage) !== "undefined") {
+                // Code for localStorage/sessionStorage.
+                newStack = localStorage.getItem("stack");
+                newStack = JSON.parse(newStack);
+            } else {
+                // Sorry! No Web Storage support..
+                alert("Local storage not suported");
+                newStack = [];
+            }
+
+
             this.state = {list: newStack.slice(0)};
     }
 
+    componentWillUpdate() {
+    }
+
     render() {
-        /* TODO pass buttons in an child element */
+            // all the button in a <ControlZone/> ?
         return (
             <div>
-                <ControlButton text="read" onClick={this.readArticle}/>
-                <hr/>
-               <div>
-                    <button onClick={(e) =>this.saveStack(e)}>
-                      save
-                    </button>
-                    <button onClick={(e) =>this.unshiftArticle(e)}>
-                      add in top
-                    </button>
-                    <button onClick={(e) =>this.pushArticle(e)}>
-                      add in bottom
-                    </button>
-                    <button onClick={(e) =>this.readArticle()}>
-                    read
-                    </button>
-                </div>
-
                <hr/>
+                <input type="textarea" />
+                <ControlButton text="add on top" onClick={(e) =>this.unshiftArticle(e)}/>
+                <ControlButton text="add on bottom"  onClick={(e) =>this.pushArticle(e)}/>
+               <hr/>
+                <ControlButton text="read" onClick={this.readArticle}/>
+                <ControlButton text="save" onClick={(e) =>this.saveStack(e)}/>
+               <hr/>
+                
                 <Stack stack={this.state.list}/>
             </div>
         );
