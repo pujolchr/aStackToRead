@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function listTheStack(article, i) {
 
     i++;
@@ -13,22 +14,37 @@ function listTheStack(article, i) {
 
 function StackBody(props) {
     return (
-        <ul>
+        <ul className="text-center list-unstyled">
           {props.list.map(listTheStack)}
         </ul>
     );
 }
 
-function StackHead(props) {
+class StackHead extends React.Component {
 
+    constructor(props) {
+            super(props);
+            this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(event) {
+        console.log("eee");
+        this.props.onClick();
+    }
+
+    render() {
         return (
-            <h2 key={"stack-head"}>
-              {props.article.name}<br/>
-              <a href={props.article.url}>
-                {props.article.url}
-              </a>
-            </h2>
+            <span key="stack-head"
+                  className="text-center"
+                  onClick={this.handleClick}
+                  style={{cursor:"pointer", color:"red"}}>
+
+              <h2>{this.props.article.name} 
+                <small>{this.props.article.url}</small>
+              </h2>
+            </span>
         );
+    }
 }
 
 function Stack(props) {
@@ -47,7 +63,7 @@ function Stack(props) {
 
         return (
             <div>
-              <StackHead article={head}/>
+              <StackHead article={head} onClick={props.onClick}/>
               <StackBody list={body}/>
             </div>
         );
