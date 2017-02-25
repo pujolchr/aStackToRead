@@ -10,7 +10,9 @@ class App extends Component {
 
     addArticle(newUrl, bottom) {
         // set the title
-        const newArticle = { name: "new",
+        const name = new URL(newUrl);
+        
+        const newArticle = { name: name.hostname,
                              url: newUrl};
 
         let newList = this.state.list.slice(0);
@@ -61,7 +63,6 @@ class App extends Component {
             // all the button in a <ControlZone/> ?
         return (
             <div className="container well">
-               <hr/>
                 <NewArticle onSubmit={this.addArticle} onClick={this.readArticle}/>
                <hr/>
                <Stack stack={this.state.list} onClick={this.readArticle}/>
