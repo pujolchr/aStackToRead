@@ -6,31 +6,33 @@ import NewArticle from './NewArticle'
 
 class App extends Component {
 
-    // Click handler
-
+    // Click handlers
     addArticle(newUrl, bottom) {
         // set the title
         const name = new URL(newUrl);
-        
         const newArticle = { name: name.hostname,
-                             url: newUrl};
+                             url:  newUrl};
 
-        let newList = this.state.list.slice(0);
+        let newstack = this.state.stack.slice(0);
+
         if (bottom) {
-            newList.push(newArticle);
+            newstack.push(newArticle);
         } else {
-            newList.unshift(newArticle);
+            newstack.unshift(newArticle);
         }
-        this.setState({list:newList});
+
+        this.setState({stack:newstack});
     }
 
     readArticle() {
+
         /* open new window */
         console.log(this);
-        window.open(this.state.list[0].url);
-        /* update list */
-          let newList = this.state.list.slice(1);
-          this.setState({list:newList});
+        window.open(this.state.stack[0].url);
+
+        /* update stack */
+          let newstack = this.state.stack.slice(1);
+          this.setState({stack:newstack});
     }
 
     constructor(props) {
@@ -50,22 +52,28 @@ class App extends Component {
             }
 
 
-            this.state = {list: newStack.slice(0)};
+            // the stack
+            this.state = {stack: newStack.slice(0)};
+            
+            // bind the eveny handler
             this.readArticle = this.readArticle.bind(this);
             this.addArticle = this.addArticle.bind(this);
     }
 
     componentDidUpdate() {
-        localStorage.setItem('stack', JSON.stringify(this.state.list));
+        // save the stack on change
+        localStorage.setItem('stack', JSON.stringify(this.state.stack));
     }
 
     render() {
-            // all the button in a <ControlZone/> ?
         return (
-            <div className="container well">
+            <div className="container well rounded" style={{borderRadius:"100%"}}>
+            <h1 className="text-center bg-primary"
+                style={{margin:"0 auto", borderRadius:"100%"}}>
+                A stack to read</h1>
                 <NewArticle onSubmit={this.addArticle} onClick={this.readArticle}/>
                <hr/>
-               <Stack stack={this.state.list} onClick={this.readArticle}/>
+               <Stack stack={this.state.stack} onClick={this.readArticle}/>
             </div>
         );
     }

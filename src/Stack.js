@@ -14,7 +14,8 @@ function listTheStack(article, i) {
 
 function StackBody(props) {
     return (
-        <ul className="text-center list-unstyled">
+        <ul className="text-center list-unstyled bg-info"
+            style={{borderRadius:"100%", padding:"1em"}}>
           {props.list.map(listTheStack)}
         </ul>
     );
@@ -34,15 +35,15 @@ class StackHead extends React.Component {
 
     render() {
         return (
-            <span key="stack-head"
-                  className="text-center"
+            <div key="stack-head"
+                  className="text-center bg-success"
                   onClick={this.handleClick}
-                  style={{cursor:"pointer", color:"red"}}>
+                  style={{cursor:"pointer", padding:"1.5em", borderRadius:"100%"}}>
 
               <h2>{this.props.article.name} 
-                <small>{this.props.article.url}</small>
               </h2>
-            </span>
+                <small>{this.props.article.url}</small>
+            </div>
         );
     }
 }
@@ -64,6 +65,7 @@ function Stack(props) {
         return (
             <div>
               <StackHead article={head} onClick={props.onClick}/>
+              <hr/>
               <StackBody list={body}/>
             </div>
         );
