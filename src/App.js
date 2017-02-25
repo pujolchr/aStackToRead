@@ -1,35 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 import Stack from './Stack'
-import ControlButton from './ControlButton'
+import NewArticle from './NewArticle'
 
-//import stack from '../public/stack.json';
-
-
-function getNewArticle() {
-    alert("ask for a new article");
-    return { name: "new one",
-             url:  "#" };
-}
 
 class App extends Component {
 
     // Click handler
-    saveStack() {
-        localStorage.setItem('stack', JSON.stringify(this.state.list));
-    }
 
-    pushArticle() {
-        let newArticle = getNewArticle();
-        let newList = this.state.list.slice(0);
-        newList.push(newArticle);
-        this.setState({list:newList});
-    }
+    addArticle(newUrl, bottom) {
+        // set the title
+        const newArticle = { name: "new",
+                             url: newUrl};
 
-    unshiftArticle() {
-        let newArticle = getNewArticle();
         let newList = this.state.list.slice(0);
-        newList.unshift(newArticle);
+        if (bottom) {
+            newList.push(newArticle);
+        } else {
+            newList.unshift(newArticle);
+        }
         this.setState({list:newList});
     }
 
@@ -60,25 +49,22 @@ class App extends Component {
 
 
             this.state = {list: newStack.slice(0)};
+            this.readArticle = this.readArticle.bind(this);
+            this.addArticle = this.addArticle.bind(this);
     }
 
-    componentWillUpdate() {
+    componentDidUpdate() {
+        localStorage.setItem('stack', JSON.stringify(this.state.list));
     }
 
     render() {
             // all the button in a <ControlZone/> ?
         return (
-            <div>
+            <div className="container well">
                <hr/>
-                <input type="textarea" />
-                <ControlButton text="add on top" onClick={(e) =>this.unshiftArticle(e)}/>
-                <ControlButton text="add on bottom"  onClick={(e) =>this.pushArticle(e)}/>
+                <NewArticle onSubmit={this.addArticle} onClick={this.readArticle}/>
                <hr/>
-                <ControlButton text="read" onClick={this.readArticle}/>
-                <ControlButton text="save" onClick={(e) =>this.saveStack(e)}/>
-               <hr/>
-                
-                <Stack stack={this.state.list}/>
+               <Stack stack={this.state.list} onClick={this.readArticle}/>
             </div>
         );
     }
