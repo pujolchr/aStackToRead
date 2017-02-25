@@ -32,13 +32,13 @@ class NewArticle extends Component {
     
     render() {
         return (
-                <form classNAme="form-horizontal" onSubmit={this.handleSubmit}>
-                  <div classNAme="form-group">
-                    <label for="new-url">url&nbsp;</label>
+                <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                  <div className="form-group">
+                    <label htmlFor="new-url">url&nbsp;</label>
                     <input type="url" name="value" id="new-url" value={this.state.value} onChange={this.handleChange}/>
                     <input type="submit" className="btn btn-primary" value="Add to Stack" />
                   </div>
-                  <div classNAme="form-group">
+                  <div className="form-group">
                     <input type="checkbox" name="onBottom" checked={this.state.onBottom} onChange={this.handleChange}/>
                     add in bottom of the stack<br/>
                   </div>
