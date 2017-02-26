@@ -48,7 +48,7 @@ class App extends Component {
             } 
 
             // the stack
-            this.state = {stack: newStack != null ? newStack.slice(0) : []};
+            this.state = {stack: newStack === null ? [] : newStack.slice(0)};
             
             // bind the events handler
             this.readArticle = this.readArticle.bind(this);
@@ -76,4 +76,3 @@ class App extends Component {
     }
 }
 
-export default App;
