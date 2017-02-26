@@ -53,7 +53,7 @@ class App extends Component {
 
 
             // the stack
-            this.state = {stack: newStack.slice(0)};
+            this.state = {stack: newStack === null ? newStack = []: newStack = newStack.slice(0)};
             
             // bind the eveny handler
             this.readArticle = this.readArticle.bind(this);
