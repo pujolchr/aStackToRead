@@ -38,24 +38,19 @@ class App extends Component {
     constructor(props) {
             super(props);
 
-            let  newStack;
+            let  newStack = [];
 
             // Local Storage
             if (typeof(Storage) !== "undefined") {
                 // Code for localStorage/sessionStorage.
                 newStack = localStorage.getItem("stack");
                 newStack = JSON.parse(newStack);
-            } else {
-                // Sorry! No Web Storage support..
-                alert("Local storage not suported");
-                newStack = [];
-            }
-
+            } 
 
             // the stack
-            this.state = {stack: newStack.slice(0)};
+            this.state = {stack: newStack != null ? newStack.slice(0) : []};
             
-            // bind the eveny handler
+            // bind the events handler
             this.readArticle = this.readArticle.bind(this);
             this.addArticle = this.addArticle.bind(this);
     }
@@ -68,9 +63,11 @@ class App extends Component {
     render() {
         return (
             <div className="container well rounded" style={{borderRadius:"100%"}}>
-            <h1 className="text-center bg-primary"
-                style={{margin:"0 auto", borderRadius:"100%"}}>
-                A stack to read</h1>
+            <h1 className="text-center">
+                <span
+                    className="text-center bg-primary"
+                    style={{margin:"0 auto", borderRadius:"100%",padding:"0 2em"}}>
+                A stack to read</span></h1>
                 <NewArticle onSubmit={this.addArticle} onClick={this.readArticle}/>
                <hr/>
                <Stack stack={this.state.stack} onClick={this.readArticle}/>
