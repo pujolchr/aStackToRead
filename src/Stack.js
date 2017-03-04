@@ -3,7 +3,6 @@ import React from 'react';
 
 function listTheStack(article, i) {
 
-    i++;
     return (
         <li key={"stack"+i}>
           <strong>{article.name}</strong> {article.url}
@@ -13,12 +12,16 @@ function listTheStack(article, i) {
 
 
 function StackBody(props) {
-    return (
-        <ul className="text-center list-unstyled bg-info"
-            style={{borderRadius:"100%", padding:"1em"}}>
-          {props.list.map(listTheStack)}
-        </ul>
-    );
+    
+    if (props.list.length) {
+        return (
+            <ul className="text-center list-unstyled bg-info"
+                style={{borderRadius:"100%", padding:"1em"}}>
+              {props.list.map(listTheStack)}
+            </ul>
+        );
+    };
+    return null;
 }
 
 class StackHead extends React.Component {
